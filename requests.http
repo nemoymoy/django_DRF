@@ -62,3 +62,55 @@ Authorization: Token 3069a84b8fdb11cc4b132ac9c46fa11a611169ba
 
 GET http://localhost:8000/adv/
 Authorization: Token 3069a84b8fdb11cc4b132ac9c46fa11a611169ba
+
+###
+
+GET http://localhost:8000/advertisements/
+Content-Type: application/json
+
+###
+
+# создание объявления от первого автора
+POST http://localhost:8000/advertisements/
+Content-Type: application/json
+Authorization: Token be1b39ceb32f9e79e5de4cf1c8885c9d8167f811
+
+{
+  "title": "Шкаф IKEA",
+  "description": "Срочно"
+}
+
+###
+
+# создание объявления от второго автора
+POST http://localhost:8000/advertisements/
+Content-Type: application/json
+Authorization: Token 3069a84b8fdb11cc4b132ac9c46fa11a611169ba
+
+{
+  "title": "Котедж",
+  "description": "Срочно Выгодно Красиво"
+}
+
+###
+
+# попытка поменять объявление
+PATCH http://localhost:8000/advertisements/1/
+Content-Type: application/json
+Authorization: Token be1b39ceb32f9e79e5de4cf1c8885c9d8167f811
+
+{
+  "status": "CLOSED"
+}
+
+###
+
+# фильтрация по создателю
+GET http://localhost:8000/advertisements/?creator=2
+Content-Type: application/json
+
+###
+
+# фильтрация по дате
+GET http://localhost:8000/advertisements/?created_at_before=2025-10-01
+Content-Type: application/json
