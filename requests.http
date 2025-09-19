@@ -7,3 +7,58 @@ POST http://localhost:8000/demo/
 ###
 
 GET http://localhost:8000/weapon/1/
+
+###
+
+GET http://localhost:8000/comments/?limit=3
+
+###
+
+POST http://localhost:8000/comments/
+Content-Type: application/json
+
+{
+    "user": 1,
+    "text": "show print from rest client"
+}
+
+###
+
+GET http://localhost:8000/comments/2/
+
+###
+
+PATCH http://localhost:8000/comments/2/
+Content-Type: application/json
+
+{
+    "text": "text from rest client new"
+}
+
+###
+
+DELETE http://localhost:8000/comments/2/
+
+###
+
+GET http://localhost:8000/adv/
+
+###
+
+POST http://localhost:8000/adv/
+Content-Type: application/json
+Authorization: Token be1b39ceb32f9e79e5de4cf1c8885c9d8167f811
+
+{
+    "text": "Объявление 2"
+}
+
+###
+
+DELETE http://localhost:8000/adv/1/
+Authorization: Token 3069a84b8fdb11cc4b132ac9c46fa11a611169ba
+
+###
+
+GET http://localhost:8000/adv/
+Authorization: Token 3069a84b8fdb11cc4b132ac9c46fa11a611169ba

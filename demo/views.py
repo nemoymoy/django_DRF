@@ -3,13 +3,18 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.throttling import AnonRateThrottle
 from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet, ModelViewSet
 
-from .models import Weapon, Comment
-from .serializers import WeaponSerializer, CommentSerializer
+from .models import Weapon, Comment, Adv
+from .permissions import IsOwnerOrReadOnly
+from .serializers import WeaponSerializer, CommentSerializer, AdvSerializer
+
+
 # Create your views here.
 
 # @api_view(['GET', 'POST'])
@@ -49,3 +54,13 @@ class CommentViewSet(ModelViewSet):
     search_fields = ['text',]
     ordering_fields = ['id', 'user', 'text', 'created_at',]
     pagination_class = LimitOffsetPagination
+
+class AdvViewSet(ModelViewSet):
+    queryset = Adv.objects.all()
+    serializer_class = AdvSerializer
+    # permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    permission_classes = [IsOwnerOrReadOnly]
+    throttle_classes = [AnonRateThrottle]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
